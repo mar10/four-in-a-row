@@ -21,7 +21,7 @@ Template.listCells.cells = function(){
 };
 
 Template.game.events({
-  "click td.movement.available" : function(e){
+  "click td.movement.available, touchstart td.movement.available" : function(e){
 	// 'this' is the clicked cell object
 //    console.log("CLICK cell", this._id, this);
     var cell, $cell,
