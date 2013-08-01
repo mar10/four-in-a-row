@@ -13,3 +13,7 @@ See the [online demo](http://four-in-a-row.meteor.com).
 ## License
 
 MIT License.
+
+## Notes
+
+This is game is the result of a quick Meteor exploration. It was inspried by [Ricardo Bernardeli's Tic Tac Toe](https://github.com/bernardeli/tictactoe).
