@@ -1,7 +1,10 @@
 Template.turn.turn = function(){
-  return Turns.findOne();
+    return Turns.findOne();
 };
-
+Template.turn.turnIs = function (move) {
+	return Turns.findOne().turn === move;
+};
+	
 Template.listRows.rows = function(){
 //  return [1,2,3];
 	var a = [];

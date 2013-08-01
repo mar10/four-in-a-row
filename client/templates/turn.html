@@ -1,3 +1,7 @@
 <template name="turn">
-  <h3>It is {{turn.turn}} turn!</h3>
+  {{#if turnIs "x"}}
+      <h3>It is <span class="player1">Player 1</span>'s turn!</h3>
+  {{else}}
+      <h3>It is <span class="player2">Player 2</span>'s turn!</h3>
+  {{/if}}
 </template>

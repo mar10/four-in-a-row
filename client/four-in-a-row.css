@@ -1,4 +1,20 @@
 /* CSS declarations go here */
+div.container {
+	padding-left: 150px;	
+}
+
+span.player1, span.player2 {
+	color: #00c;
+	padding: 1px 5px;
+	border-radius: 3px;
+}
+span.player1 {
+	background-color: red;
+}
+span.player2 {
+	background-color: yellow;
+}
+
 table {
   border-collapse: collapse;
 }
