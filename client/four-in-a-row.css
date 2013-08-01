@@ -8,11 +8,12 @@ span.player1, span.player2 {
 	padding: 1px 5px;
 	border-radius: 3px;
 }
-span.player1 {
-	background-color: red;
-}
-span.player2 {
+
+span.player1 { /* x */
 	background-color: yellow;
+}
+span.player2 { /* o */
+	background-color: red;
 }
 
 table {

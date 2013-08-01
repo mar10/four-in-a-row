@@ -2,7 +2,8 @@ Template.turn.turn = function(){
     return Turns.findOne();
 };
 Template.turn.turnIs = function (move) {
-	return Turns.findOne().turn === move;
+	var turn = Turns.findOne(); 
+	return turn ? turn.turn === move : "";
 };
 	
 Template.listRows.rows = function(){
@@ -51,54 +52,6 @@ Template.game.events({
   }
 });
 
-/*
-Template.cell.events({
-  "click td.movement.available" : function(e){
-	// 'this' is the clicked cell object
-    console.log("CLICK cell", this._id, this);
-    var cell, $cell,
-    	row = this.row;
-    // Drop cell marker as deep as possible
-    while( row < (ROW_COUNT - 1) && !getMoveAt(row + 1, this.column)){
-    	row += 1;
-    }
-    console.log("CLICK cell dropped", row, this.column);
-    cell = getCellAt(row, this.column);
-    
-    // Mark <td> as unavailable
-    $cell = $("div.container tr.row:nth-of-type(" + (row+1) + ")")
-    	.find("td:nth-of-type(" + (this.column+1) + ")");
-    $cell.removeClass("available");
-    console.log("CLICK cell dropped", cell, $cell);
-
-    turn = Turns.findOne();
-    
-    // TODO: row and columns can be omitted?
-//    Cells.update(cell._id, { row: cell.row, column: cell.column, move: turn.turn });
-    Cells.update(cell._id, { move: turn.turn });
-//    setMoveAt(this._id, { row: this.row, column: this.column, move: turn.turn });
-    changeTurn(turn);
-
-    winner = findWinner();
-    gameHasWinner(winner);
-  }
-});
-
-Template.cell.events({
-  "click td.movement.available" : function(e){
-    cell = $(e.target);
-    cell.removeClass("available");
-
-    turn = Turns.findOne();
-    
-    Cells.update(this._id, { row: row, column: this.column, move: turn.turn });
-    changeTurn(turn);
-
-    winner = findWinner();
-    gameHasWinner(winner);
-  }
-});
- */
 
 Template.resetCells.events({
   'click button': function(){
