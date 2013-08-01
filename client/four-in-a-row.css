@@ -1,0 +1,45 @@
+/* CSS declarations go here */
+table {
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #00c;
+  background-color: #00c;
+  width: 70px;
+  height: 70px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 40px;
+}
+
+td.winner {
+  background-color: grey;
+}
+
+body:nth-of-type(1) .unicode:after {
+  color: #008000;
+  font-weight: 900;
+  text-shadow: 1px 1px 2px #000
+}
+
+.move-null:after {
+	content: "\2B24";
+	color: white;
+}
+
+body:nth-of-type(1) .move-o:after {
+/*	content: "\25EF";*/
+	content: "\2B24";
+	color: red;
+}
+
+body:nth-of-type(1) .move-x:after {
+/*  content: "\2715"; */
+	content: "\2B24";
+	color: yellow;
+}
+
+#resetCells {
+  margin-top: 10px;
+}
