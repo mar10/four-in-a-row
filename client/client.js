@@ -3,6 +3,7 @@
  */
 Meteor.startup(function () {
 	Accounts.ui.config({
+		// User accounts should only have a name and a password
 //		passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
 		passwordSignupFields: "USERNAME_ONLY"
 	});
@@ -11,6 +12,12 @@ Meteor.startup(function () {
 /*
  * Local functions
  */
+
+/*
+ * Global client functions
+ */
+
+/** Toggle current player bewtween 1 and 2. */
 changeTurn = function(game) {
 	game = game || activeGame();
 	// Current turn is stored as integer (1 | 2)
@@ -18,11 +25,11 @@ changeTurn = function(game) {
 	var i = parseInt(game.turn, 10) || 1;
 	i = (i % PLAYER_COUNT) + 1;
 	Games.update(game._id, {$set: {turn: i, status: "started", modified: now()}});
-	Session.set("turnPlayerId", currentTurnPlayerId());
-	console.log("changeTurn, player=", currentTurnPlayerId());
+//	console.log("changeTurn, player=", currentTurnPlayerId());
 };
 
 
+/** Check the result of `findWinner()` and mark game as closed. */
 gameHasWinner = function(winner) {
 	if (winner.length > 0) {
 		console.log("winner", winner);
@@ -31,17 +38,18 @@ gameHasWinner = function(winner) {
 			Cells.update(cell._id, {$set: {winner: true}});
 		});
 		Games.update(Session.get("activeGameId"), {$set: {status: "closed", modified: now()}});
+		// TODO: show 'XXX has won'
+		// TODO: incrment user.winCount & user.gameCount
 	};
 };
 
-/*
- * Global client functions
- */
+
+/** Add current user as player2 */
 joinGame = function(game) {
 	var myId = Meteor.userId();
 
 	if( game.playerId1 === myId || game.playerId2 === myId ){
-		console.log("already joined");
+		console.log("you already joined");
 		return game;
 	}
 	if( game.playerId1 === null && game.playerId2 === null ){
@@ -51,6 +59,7 @@ joinGame = function(game) {
 	Games.update(game._id, {$set: {playerId2: myId, status: "started", modified: now()}});
 	return game;
 };
+
 
 /** Return active game object or null. */
 activeGame = function() {
@@ -72,7 +81,7 @@ currentTurnPlayerId = function() {
 	return turn == 1 ? game.playerId1 : turn == 2 ? game.playerId2 : null;
 };
 
-
+/** Return true if it's current user's turn. */
 isMyTurn = function() {
 	return currentTurnPlayerId() === Meteor.userId();
 };

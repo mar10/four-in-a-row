@@ -1,17 +1,18 @@
 /*
  * Local functions
  */
+/** Activate another game (default to combobox selection). */
 function _gameChanged(gameId){
 	gameId = gameId || $("#gameList option:selected").attr("name");
 	var game = findGame(gameId);
 	Session.set("activeGameId", game._id);
-	Session.set("turnPlayerId", game.turn);
 	console.log("change game", game);
 }
 
 /*
  * Template helpers for game
  */
+/** Handle column clicks to set a disk. */
 Template.game.events({
   "click td.movement.available, touchstart td.movement.available" : function(e){
 	// 'this' is the clicked cell object
@@ -27,21 +28,15 @@ Template.game.events({
     while( row < (ROW_COUNT - 1) && !getMoveAt(game, row + 1, this.column)){
     	row += 1;
     }
-//    console.log("CLICK cell dropped", row, this.column);
     cell = getCellAt(game, row, this.column);
     
     // Mark <td> as unavailable
     $cell = $("div.container tr.row:nth-of-type(" + (row+1) + ")")
     	.find("td:nth-of-type(" + (this.column+1) + ")");
     $cell.removeClass("available");
-//    console.log("CLICK cell dropped", cell, $cell);
-
-//    turn = Turns.findOne();
     
-    // TODO: row and columns can be omitted?
     Cells.update(cell._id, {$set: { move: game.turn }});
-//    Cells.update(cell._id, { move: turn.turn });
-//    setMoveAt(this._id, { row: this.row, column: this.column, move: turn.turn });
+
     changeTurn(game);
 
     winner = findWinner(game);
@@ -52,21 +47,22 @@ Template.game.events({
 /*
  * Template helpers for gameList
  */
+/** Return a list of all existing games. */
 Template.gameList.games = function(){
 	return Games.find();
 };
 
+/** Return user display name for id (null: 'Anonymous'). */
 Template.gameList.userName = function(userId){
 	var user = findUser(userId);
 	return "" + (user ? (user.username /* || user.emails[0]*/) : "Anonymous");
 };
 
-
 Template.gameList.isActiveGame = function(){
 	return this._id === Session.get("activeGameId");
 };
 
-
+/** Make sure the combobox selection is applied on first load. */
 Template.gameList.rendered = function(){
 	if( ! Session.get("activeGameId") ){
 		console.log("Initializing gameId");
@@ -76,7 +72,7 @@ Template.gameList.rendered = function(){
 	}
 };
 
-
+/** Handle buttons and combobox changes. */
 Template.gameList.events({
 	"change #gameList": function(){
 		_gameChanged();
@@ -104,6 +100,10 @@ Template.gameList.events({
 			alert("You already joined this game.");
 			return game;
 		}
+		if( game.playerId2 !== null ){
+			alert("This game was already joined by someone else.\nChoose another game, or create a new one.");
+			return false;
+		}
 		joinGame(game);
 	},
 	"click #resetGame": function(){
@@ -116,6 +116,9 @@ Template.gameList.events({
 		resetGame(game);
 	},
 	"click #resetAllGames": function(){
+		if( !confirm("This will delete ALL games.\nAre you sure?") ){
+			return false;
+		}
 		Meteor.call("resetAllGames");
 		setTimeout(function(){
 			console.log("trigger change game");
@@ -162,18 +165,14 @@ Template.turn.playerName = function(turn) {
 
 /** Return "active" if it is requested player's turn.*/
 Template.turn.activeIf = function(playerIndex) {
-	var gameId = Session.get("activeGameId"),
-		turnId = Session.get("turnPlayerId"),
-		game = findGame(gameId);
-	if( !game )
-		return "";
-	var playerId = playerIndex == "1" ? game.playerId1 : game.playerId2;
-	return ( playerId ===  turnId ) ? "active" : "";
+	var game = activeGame();
+	return ( game && game.turn ==  playerIndex ) ? "active" : "";
 };
 	
 /*
  * Template helpers for listRows
  */
+/** Return a nested list of rows and cells. */
 Template.listRows.rows = function(){
 	var cols, i,
 		row = 0,
@@ -181,9 +180,10 @@ Template.listRows.rows = function(){
 		rows = [];
 	
 	for(i=0; i<ROW_COUNT; i++){
-		cols = Cells.find({gameId: gameId, row: row + i}, {sort: {column: 1}});
+		cols = Cells.find({gameId: gameId, row: row}, {sort: {column: 1}});
 		rows.push({row: row, cols: cols.fetch()});
+		row += 1;
 	}
-	console.log("listRows", gameId, rows);
+//	console.log("listRows", gameId, rows);
 	return rows;
 };

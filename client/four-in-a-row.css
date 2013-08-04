@@ -1,4 +1,3 @@
-/* CSS declarations go here */
 div.container {
 	padding-left: 150px;	
 }
@@ -22,7 +21,8 @@ span.player2 {
 	background-color: red;
 }
 span.active {
-	font-weight: bold;
+	font-weight: bolder;
+	text-decoration: underline;
 }
 
 table {

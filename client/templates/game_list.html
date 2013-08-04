@@ -2,15 +2,15 @@
 <fieldset class="games">
 	<legend>Games</legend>
 	<select id="gameList">
-	  {{#each games}}
-	    <option name={{_id}} {{#if isActiveGame}}selected="selected"{{/if}}>
-	    	{{userName playerId1}} - {{userName playerId2}} ({{status}})
-	    </option>
-	  {{/each}}
+	  	{{#each games}}
+	    	<option name={{_id}} {{#if isActiveGame}}selected="selected"{{/if}}>
+	    		{{userName playerId1}} - {{userName playerId2}} ({{status}})
+	    	</option>
+	  	{{/each}}
 	</select>
-	<button id="newGame">New</button>
-	<button id="joinGame">Join</button>
-	<button id="resetGame">Restart</button>
+	<button id="newGame">New game</button>
+	<button id="joinGame">Join game</button>
+	<button id="resetGame">Reset game</button>
 	<hr>
 	<button id="resetAllGames">Clear all games</button>
 </fieldset>
