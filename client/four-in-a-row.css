@@ -3,38 +3,66 @@ div.container {
 	padding-left: 150px;	
 }
 
+#login-buttons {
+	top: 50px;
+	right: 10px;
+	position: absolute;	
+}
+
 span.player1, span.player2 {
 	color: #00c;
 	padding: 1px 5px;
 	border-radius: 3px;
 }
 
-span.player1 { /* x */
+span.player1 {
 	background-color: yellow;
 }
-span.player2 { /* o */
+span.player2 {
 	background-color: red;
+}
+span.active {
+	font-weight: bold;
 }
 
 table {
   border-collapse: collapse;
 }
 
-td {
+td.movement {
   border: 1px solid #00c;
   background-color: #00c;
   width: 70px;
   height: 70px;
   line-height: 60px;
   text-align: center;
+  vertical-align: middle;
   font-size: 40px;
 }
 
-td.winner {
-  background-color: grey;
+td.movement.winner {
+  background-color: green;
 }
 
-body:nth-of-type(1) .unicode:after {
+td.movement >span {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border-color: #00c;
+	border-radius: 25px;
+  vertical-align: middle;
+}
+
+td.movement >span.move-1 {
+	background-color: yellow;
+}
+
+td.movement >span.move-2 {
+	background-color: red;
+}
+/*
+.unicode:after {
   color: #008000;
   font-weight: 900;
   text-shadow: 1px 1px 2px #000
@@ -44,19 +72,15 @@ body:nth-of-type(1) .unicode:after {
 	content: "\2B24";
 	color: white;
 }
-
-body:nth-of-type(1) .move-o:after {
-/*	content: "\25EF";*/
-	content: "\2B24";
-	color: red;
-}
-
-body:nth-of-type(1) .move-x:after {
-/*  content: "\2715"; */
+.move-1:after {
 	content: "\2B24";
 	color: yellow;
 }
-
+.move-2:after {
+	content: "\2B24";
+	color: red;
+}
 #resetCells {
   margin-top: 10px;
 }
+*/

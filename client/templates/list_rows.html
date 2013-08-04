@@ -1,7 +1,9 @@
 <template name="listRows">
   {{#each rows}}
     <tr class='row' data-row='{{row}}' test='t'>
-      {{> listCells}}
+      {{#each cols}}
+    	{{> cell}}
+       {{/each}}
     </tr>
   {{/each}}
 </template>

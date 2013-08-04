@@ -1,7 +1,17 @@
 <template name="turn">
-  {{#if turnIs "x"}}
-      <h3>It is <span class="player1">Player 1</span>'s turn!</h3>
-  {{else}}
-      <h3>It is <span class="player2">Player 2</span>'s turn!</h3>
-  {{/if}}
+<!-- 
+    turnPlayerId: {{sessionGet "turnPlayerId"}}
+	<p>gameId: {{sessionGet "activeGameId"}}</p>
+ -->
+    <h3>
+    	<span class="player1 {{activeIf '1'}}">{{playerName "1"}}</span> 
+    	vs. 
+    	<span class="player2 {{activeIf '2'}}">{{playerName "2"}}</span> 
+    	:
+	{{#if isMyTurn}}
+		It's your turn!
+	{{else}}
+		It's {{playerName}}'s turn!
+	{{/if}}
+    </h3>
 </template>
