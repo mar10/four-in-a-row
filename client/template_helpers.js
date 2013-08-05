@@ -12,36 +12,55 @@ function _gameChanged(gameId){
 /*
  * Template helpers for game
  */
+/** True if the board could be loaded (sometimes fails after a backend refresh) */
+Template.game.isGameLoaded = function(){
+	return !!findGame(Session.get("activeGameId"));
+};
+
 /** Handle column clicks to set a disk. */
+var MIN_DELAY_MS = 400,
+	_last_click_time = 0;
+
 Template.game.events({
-  "click td.movement.available, touchstart td.movement.available" : function(e){
-	// 'this' is the clicked cell object
-//    console.log("CLICK cell", this._id, this);
-	  if( !isMyTurn() ){
-		  alert("It's not your turn: you:" + Meteor.userId() + ", turn: " + currentTurn() + "=" + currentTurnPlayerId());
-//		  return;
-	  }
-    var cell, $cell,
-    	row = this.row,
-    	game = activeGame();
-    // Drop cell marker as deep as possible
-    while( row < (ROW_COUNT - 1) && !getMoveAt(game, row + 1, this.column)){
-    	row += 1;
-    }
-    cell = getCellAt(game, row, this.column);
-    
-    // Mark <td> as unavailable
-    $cell = $("div.container tr.row:nth-of-type(" + (row+1) + ")")
-    	.find("td:nth-of-type(" + (this.column+1) + ")");
-    $cell.removeClass("available");
-    
-    Cells.update(cell._id, {$set: { move: game.turn }});
+	"click td.movement.available, touchstart td.movement.available" : function(e){
+// 		'this' is the clicked cell object
+//    	console.log("CLICK cell", this._id, this);
+		// Sometimes we get double events on iPad touches and others: ignore them
+		// TODO: why?
+		if( (now() - _last_click_time) < MIN_DELAY_MS ){
+			console.log("Ignoring fast second click");
+			return false;
+		} 
+		_last_click_time = now();
+		
+		var cell, $cell,
+		row = this.row,
+		game = activeGame();
 
-    changeTurn(game);
-
-    winner = findWinner(game);
-    gameHasWinner(winner);
-  }
+		if( !isMyTurn() ){
+//			alert("It's not your turn: you:" + Meteor.userId() + ", turn: " + currentTurn() + "=" + currentTurnPlayerId());
+//				console.log("currentTurnPlayerId", game);
+			alert("Sorry " + findUserName(Meteor.userId()) + ", it's " + findUserName(currentTurnPlayerId()) + "'s turn.");
+			return false;
+		}
+        // Drop cell marker as deep as possible
+	    while( row < (ROW_COUNT - 1) && !getMoveAt(game, row + 1, this.column)){
+	    	row += 1;
+	    }
+	    cell = getCellAt(game, row, this.column);
+    
+	    // Mark <td> as unavailable
+	    $cell = $("div.container tr.row:nth-of-type(" + (row+1) + ")")
+	    	.find("td:nth-of-type(" + (this.column+1) + ")");
+	    $cell.removeClass("available");
+	    
+	    Cells.update(cell._id, {$set: { move: game.turn }});
+	
+	    changeTurn(game);
+	
+	    winner = findWinner(game);
+	    gameHasWinner(winner);
+	}
 });
 
 /*
@@ -58,6 +77,7 @@ Template.gameList.userName = function(userId){
 	return "" + (user ? (user.username /* || user.emails[0]*/) : "Anonymous");
 };
 
+/** True if this game option is the currently active game (i.e. selected)*/
 Template.gameList.isActiveGame = function(){
 	return this._id === Session.get("activeGameId");
 };

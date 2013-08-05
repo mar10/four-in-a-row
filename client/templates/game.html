@@ -1,17 +1,20 @@
 <template name="game">
   	<div class='container'>
     	<h2>Four In A Row</h2>
-    	<p>Note: this is a multi-player game: ask a friend to open the same URL 
+    	<p class="info">Note: this is a multi-player game: ask a friend to open the same URL 
     		in a browser!</p>
     		
     	{{> turn}}
-    
+    	
+{{#if isGameLoaded}}  
     	<table>
       		<tbody>
         		{{> listRows}}
       		</tbody>
     	</table>
-	
+{{else}}
+    	<p class="warning">Loading game... (<a href=".">refresh</a>)</p>
+{{/if}}
     	{{> gameList}}
   	</div>
 </template>

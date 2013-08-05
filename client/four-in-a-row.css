@@ -1,19 +1,38 @@
 div.container {
-	padding-left: 150px;	
+	padding-left: 120px;	
+	font-family: sans-serif;
 }
 
 #login-buttons {
-	top: 50px;
+	top: 40px;
 	right: 10px;
+	
 	position: absolute;	
 }
 
+p.info, p.warning {
+/*	background-color: #ff9;*/
+	color: #444;
+	text-align: center;
+	border: 1px solid #444;
+	border-radius: 4px;
+	padding: 2px 5px;	
+}
+
+p.info {
+}
+p.warning {
+	background-color: #ff9;
+	color: #800;
+	border-color: red;	
+}
+
+/* Name labels in Turn header */
 span.player1, span.player2 {
 	color: #00c;
 	padding: 1px 5px;
 	border-radius: 3px;
 }
-
 span.player1 {
 	background-color: yellow;
 }
@@ -25,19 +44,18 @@ span.active {
 	text-decoration: underline;
 }
 
+/* Game board */
 table {
   border-collapse: collapse;
 }
 
 td.movement {
-  border: 1px solid #00c;
+  border: 3px inset blue;
   background-color: #00c;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   line-height: 60px;
   text-align: center;
-  vertical-align: middle;
-  font-size: 40px;
 }
 
 td.movement.winner {
@@ -51,36 +69,11 @@ td.movement >span {
 	background-color: white;
 	border-color: #00c;
 	border-radius: 25px;
-  vertical-align: middle;
+    vertical-align: middle;
 }
-
 td.movement >span.move-1 {
 	background-color: yellow;
 }
-
 td.movement >span.move-2 {
 	background-color: red;
 }
-/*
-.unicode:after {
-  color: #008000;
-  font-weight: 900;
-  text-shadow: 1px 1px 2px #000
-}
-
-.move-null:after {
-	content: "\2B24";
-	color: white;
-}
-.move-1:after {
-	content: "\2B24";
-	color: yellow;
-}
-.move-2:after {
-	content: "\2B24";
-	color: red;
-}
-#resetCells {
-  margin-top: 10px;
-}
-*/
