@@ -1,6 +1,8 @@
 TODO
 ====
   * Purge old / inactive games
+  * List of currently loggend-in users
+  * sometimes Disks can be dropped Even if Game is closed
   * Allow 'Pass turn' while game is 'new'
   * Disk should flash a bit after they were dropped
   * There should be a 'Player 1 has won' message
