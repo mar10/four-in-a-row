@@ -186,7 +186,8 @@ Template.turn.playerName = function(turn) {
 	var game = activeGame();
 	if( !game )
 		return "???";
-	var playerId = game.turn == 1 ? game.playerId1 : game.playerId2;
+	var playerId = (turn == "1") ? game.playerId1 : game.playerId2;
+//	console.log("Template.turn.playerName", turn, game.turn, playerId, game);
 	return player = findUserName(playerId);
 };
 
