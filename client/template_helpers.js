@@ -37,6 +37,10 @@ Template.game.events({
 		row = this.row,
 		game = activeGame();
 
+		if( game.status === "closed" ){
+			alert("The game is closed.");
+			return false;
+		}
 		if( !isMyTurn() ){
 //			alert("It's not your turn: you:" + Meteor.userId() + ", turn: " + currentTurn() + "=" + currentTurnPlayerId());
 //				console.log("currentTurnPlayerId", game);
@@ -108,6 +112,10 @@ Template.gameList.events({
 	"click #joinGame": function(){
 		var game = activeGame(),
 			myId = Meteor.userId();
+		if( game.status !== "new" ){
+			alert("Only new games can be joined.");
+			return false;
+		}
 		if( !myId ){
 			alert("Please sign in to join a game.");
 			return false;
@@ -175,11 +183,10 @@ Template.turn.currentGame = function() {
 
 /** Return name of player X ()*/
 Template.turn.playerName = function(turn) {
-	turn = turn || Session.get("turnId");
 	var game = activeGame();
 	if( !game )
 		return "???";
-	var playerId = turn == 1 ? game.playerId1 : game.playerId2;
+	var playerId = game.turn == 1 ? game.playerId1 : game.playerId2;
 	return player = findUserName(playerId);
 };
 
