@@ -1,4 +1,4 @@
-four-in-a-row
+four-in-a-row  [![Powered by You](http://sapegin.github.io/powered-by-you/badge.svg)](http://sapegin.github.io/powered-by-you/)
 =============
 A web browser, online, multi-user implementation of the
 [Four In A Row / Connect Four](http://en.wikipedia.org/wiki/Connect_Four) 
